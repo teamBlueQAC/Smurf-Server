@@ -97,19 +97,9 @@ public class OrderService {
 		return total;
 	}
 
-	public void placeOrder(com.qa.smurf.model.Order order, long userId) {
+	public void placeOrder(Order order, long userId) {
 		if(order!=null){
-			for(com.qa.smurf.model.LineItems li : order.getOrderLineItems()){
-				long productId = li.getProduct().getId();
-				com.qa.smurf.model.Product p = productRepository.findById(productId);
-				int available = li.getProduct().getQuantityAvailable();
-				int liQuantity = li.getQuantity();
-				if(liQuantity <= available){
-					p.setQuantityAvailable(available-liQuantity);
-				}
-			}
-			order.setOrderStatus("PLACED");
-			orderRepository.updateOrder(order);
+			orderRepository.placeOrder(order);
 		}
 
 	}
